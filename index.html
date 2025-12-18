@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirOffices Venue Readiness Check</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    .container {
+      max-width: 720px;
+      margin: auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    p.sub {
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .question {
+      margin-bottom: 24px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    select, input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    .options label {
+      font-weight: 400;
+      display: block;
+      margin-bottom: 6px;
+    }
+    button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .result {
+      margin-top: 32px;
+      padding: 24px;
+      border-radius: 12px;
+      background: #f1f1f1;
+      display: none;
+    }
+    .score {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Is Your Space a Fit for AirOffices?</h1>
+    <p class="sub">Complete this 3-minute check to see whether your boardroom or office qualifies to earn income on AirOffices.</p>
+
+    <form id="airForm">
+
+      <div class="question">
+        <label>1. Type of venue</label>
+        <select name="venue" data-score="5">
+          <option value="">Select</option>
+          <option value="public">Coffee shop / Restaurant / Hotel</option>
+          <option value="office">Office / Corporate</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>2. City & suburb</label>
+        <input type="text" required />
+      </div>
+
+      <div class="question">
+        <label>3. What space can you list?</label>
+        <div class="options">
+          <label><input type="checkbox" data-score="10" /> Boardroom / Meeting room</label>
+          <label><input type="checkbox" data-score="10" /> Private office</label>
+          <label><input type="checkbox" data-score="3" /> Desk only</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>4. How often is the space unused?</label>
+        <select data-score="15">
+          <option value="">Select</option>
+          <option value="15">Most of the time</option>
+          <option value="8">Sometimes</option>
+          <option value="0">Rarely</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>5. Comfortable with hourly bookings?</label>
+        <select>
+          <option value="">Select</option>
+          <option value="10">Yes</option>
+          <option value="5">Yes, with notice</option>
+          <option value="-20">No</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>6. Monthly listing fee from R549 — does this work?</label>
+        <select>
+          <option value="">Select</option>
+          <option value="15">Yes</option>
+          <option value="5">Need more info</option>
+          <option value="-25">No</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>7. Are you the decision-maker?</label>
+        <select>
+          <option value="">Select</option>
+          <option value="10">Yes</option>
+          <option value="5">Influencer</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>8. Contact details</label>
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required style="margin-top:8px" />
+        <input type="tel" placeholder="Mobile" style="margin-top:8px" />
+      </div>
+
+      <button type="submit">See My Score</button>
+    </form>
+
+    <div class="result" id="result">
+      <div class="score" id="score"></div>
+      <div id="message"></div>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('airForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+
+      document.querySelectorAll('select').forEach(sel => {
+        const val = parseInt(sel.value);
+        if (!isNaN(val)) score += val;
+      });
+
+      document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+        score += parseInt(cb.dataset.score);
+      });
+
+      const result = document.getElementById('result');
+      const scoreEl = document.getElementById('score');
+      const msgEl = document.getElementById('message');
+
+      scoreEl.innerText = `Your Score: ${score} / 100`;
+
+      if (score >= 80) {
+        msgEl.innerHTML = '<strong>Excellent fit.</strong> Your space is highly suitable for AirOffices. Book an onboarding call to get listed.';
+      } else if (score >= 60) {
+        msgEl.innerHTML = '<strong>Good potential.</strong> With minor adjustments, your space could perform well. Let\'s discuss next steps.';
+      } else if (score >= 40) {
+        msgEl.innerHTML = '<strong>Early stage.</strong> There may be an opportunity later. We\'ll share guidance to help you prepare.';
+      } else {
+        msgEl.innerHTML = '<strong>Not a fit right now.</strong> Based on your answers, your space is unlikely to perform well on AirOffices currently.';
+      }
+
+      result.style.display = 'block';
+      result.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
