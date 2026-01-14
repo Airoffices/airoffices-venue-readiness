@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AirOffices Venue Readiness Check</title>
+
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -68,46 +69,68 @@
       display: none;
     }
     .score {
-      font-size: 32px;
+      font-size: 26px;
       font-weight: 700;
       margin-bottom: 12px;
     }
+    .cta {
+      margin-top: 20px;
+    }
+    .cta a {
+      display: inline-block;
+      background: #25D366;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Is Your Space a Fit for AirOffices?</h1>
-    <p class="sub">Complete this 3-minute check to see whether your boardroom or office qualifies to earn income on AirOffices.</p>
+    <p class="sub">
+      Most venues don’t realise they can monetise a single room or quiet space.
+      This 3-minute check helps you see whether your space could already earn on AirOffices.
+    </p>
 
-    <https://formspree.io/f/xjkezgnq
+    <form id="airForm" action="https://formspree.io/f/xjkezgnq" method="POST">
+
+      <!-- Hidden fields sent to Formspree -->
+      <input type="hidden" name="_subject" value="New AirOffices Venue Readiness Submission">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="score" id="finalScore">
+      <input type="hidden" name="result_category" id="resultCategory">
 
       <div class="question">
         <label>1. Type of venue</label>
-        <select name="venue" data-score="5">
+        <select name="venue_type" required>
           <option value="">Select</option>
-          <option value="public">Coffee shop / Restaurant / Hotel</option>
-          <option value="office">Office / Corporate</option>
-          <option value="other">Other</option>
+          <option value="5">Coffee shop / Restaurant / Hotel</option>
+          <option value="5">Office / Corporate</option>
+          <option value="3">Other</option>
         </select>
       </div>
 
       <div class="question">
         <label>2. City & suburb</label>
-        <input type="text" required />
+        <input type="text" name="location" required />
       </div>
 
       <div class="question">
         <label>3. What space can you list?</label>
         <div class="options">
-          <label><input type="checkbox" data-score="10" /> Boardroom / Meeting room</label>
-          <label><input type="checkbox" data-score="10" /> Private office</label>
-          <label><input type="checkbox" data-score="3" /> Desk only</label>
+          <label><input type="checkbox" name="space_type" value="Boardroom" data-score="10" /> Boardroom / Meeting room</label>
+          <label><input type="checkbox" name="space_type" value="Private office" data-score="10" /> Private office</label>
+          <label><input type="checkbox" name="space_type" value="Desk only" data-score="3" /> Desk only</label>
         </div>
       </div>
 
       <div class="question">
         <label>4. How often is the space unused?</label>
-        <select data-score="15">
+        <select name="unused_frequency" required>
           <option value="">Select</option>
           <option value="15">Most of the time</option>
           <option value="8">Sometimes</option>
@@ -117,27 +140,27 @@
 
       <div class="question">
         <label>5. Comfortable with hourly bookings?</label>
-        <select>
+        <select name="hourly_bookings" required>
           <option value="">Select</option>
           <option value="10">Yes</option>
           <option value="5">Yes, with notice</option>
-          <option value="-20">No</option>
+          <option value="0">No</option>
         </select>
       </div>
 
       <div class="question">
-        <label>6. Monthly listing fee from R549 — does this work?</label>
-        <select>
+        <label>6. Monthly listing fee from R549 (ex VAT) — does this work?</label>
+        <select name="pricing_fit" required>
           <option value="">Select</option>
           <option value="15">Yes</option>
           <option value="5">Need more info</option>
-          <option value="-25">No</option>
+          <option value="0">Not right now</option>
         </select>
       </div>
 
       <div class="question">
         <label>7. Are you the decision-maker?</label>
-        <select>
+        <select name="decision_maker" required>
           <option value="">Select</option>
           <option value="10">Yes</option>
           <option value="5">Influencer</option>
@@ -147,26 +170,30 @@
 
       <div class="question">
         <label>8. Contact details</label>
-        <input type="text" placeholder="Name" required />
-        <input type="email" placeholder="Email" required style="margin-top:8px" />
-        <input type="tel" placeholder="Mobile" style="margin-top:8px" />
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required style="margin-top:8px" />
+        <input type="tel" name="mobile" placeholder="Mobile" style="margin-top:8px" />
       </div>
 
-      <button type="submit">See My Score</button>
-    <<form action="https://formspree.io/f/xjkezgnq">
-      <input type="hidden" name="_subject" value="New AirOffices Venue Readiness Submission">
-<input type="hidden" name="_template" value="table">
+      <button type="submit">See My Result</button>
+    </form>
 
     <div class="result" id="result">
-      <div class="score" id="score"></div>
+      <div class="score" id="scoreText"></div>
       <div id="message"></div>
-    </div>
 
+      <div class="cta">
+        <a href="https://wa.me/270829655050?text=Hi%20Brendan%2C%20I%20just%20completed%20the%20AirOffices%20Venue%20Readiness%20Check%20and%20would%20love%20to%20chat." target="_blank">
+          💬 Chat with our CEO on WhatsApp
+        </a>
+      </div>
+    </div>
   </div>
 
   <script>
     document.getElementById('airForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
       let score = 0;
 
       document.querySelectorAll('select').forEach(sel => {
@@ -178,24 +205,35 @@
         score += parseInt(cb.dataset.score);
       });
 
-      const result = document.getElementById('result');
-      const scoreEl = document.getElementById('score');
-      const msgEl = document.getElementById('message');
-
-      scoreEl.innerText = `Your Score: ${score} / 100`;
+      let category = '';
+      let message = '';
 
       if (score >= 80) {
-        msgEl.innerHTML = '<strong>Excellent fit.</strong> Your space is highly suitable for AirOffices. Book an onboarding call to get listed.';
+        category = 'You’re Ready to Earn';
+        message = '<strong>Your space is already suitable to be listed on AirOffices.</strong><br><br>Venues like yours are actively earning from underutilised rooms — often without making any changes.';
       } else if (score >= 60) {
-        msgEl.innerHTML = '<strong>Good potential.</strong> With minor adjustments, your space could perform well. Let\'s discuss next steps.';
+        category = 'High Potential Venue';
+        message = '<strong>Your venue shows strong commercial potential.</strong><br><br>With one or two small tweaks, your space could unlock consistent bookings.';
       } else if (score >= 40) {
-        msgEl.innerHTML = '<strong>Early stage.</strong> There may be an opportunity later. We\'ll share guidance to help you prepare.';
+        category = 'Commercially Viable';
+        message = '<strong>Your space meets the core conditions.</strong><br><br>Most venues in this category simply haven’t realised this opportunity existed.';
       } else {
-        msgEl.innerHTML = '<strong>Not a fit right now.</strong> Based on your answers, your space is unlikely to perform well on AirOffices currently.';
+        category = 'Untapped Opportunity';
+        message = '<strong>Your space may not be ready today.</strong><br><br>You’re now aware of an asset most venues overlook — many successful listings started here.';
       }
 
-      result.style.display = 'block';
-      result.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('scoreText').innerText = category + ' (' + score + '/100)';
+      document.getElementById('message').innerHTML = message;
+      document.getElementById('finalScore').value = score;
+      document.getElementById('resultCategory').value = category;
+
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+
+      // Submit to Formspree after showing result
+      setTimeout(() => {
+        e.target.submit();
+      }, 800);
     });
   </script>
 </body>
