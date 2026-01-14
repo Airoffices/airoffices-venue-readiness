@@ -7,7 +7,7 @@
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #f7f7f7;
       margin: 0;
       padding: 20px;
@@ -58,9 +58,6 @@
       border-radius: 10px;
       cursor: pointer;
     }
-    button:hover {
-      opacity: 0.9;
-    }
     .result {
       margin-top: 32px;
       padding: 24px;
@@ -69,7 +66,7 @@
       display: none;
     }
     .score {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 12px;
     }
@@ -93,7 +90,7 @@
     <h1>Is Your Space a Fit for AirOffices?</h1>
     <p class="sub">
       Most venues don’t realise they can monetise a single room or quiet space.
-      This 3-minute check helps you see whether your space could already earn on AirOffices.
+      This 3-minute check shows whether your space could already earn on AirOffices.
     </p>
 
     <form id="airForm" action="https://formspree.io/f/xjkezgnq" method="POST">
@@ -116,15 +113,15 @@
 
       <div class="question">
         <label>2. City & suburb</label>
-        <input type="text" name="location" required />
+        <input type="text" name="location" required>
       </div>
 
       <div class="question">
         <label>3. What space can you list?</label>
         <div class="options">
-          <label><input type="checkbox" name="space_type" value="Boardroom" data-score="10" /> Boardroom / Meeting room</label>
-          <label><input type="checkbox" name="space_type" value="Private office" data-score="10" /> Private office</label>
-          <label><input type="checkbox" name="space_type" value="Desk only" data-score="3" /> Desk only</label>
+          <label><input type="checkbox" data-score="10" name="space_boardroom"> Boardroom / Meeting room</label>
+          <label><input type="checkbox" data-score="10" name="space_private_office"> Private office</label>
+          <label><input type="checkbox" data-score="3" name="space_desk"> Desk only</label>
         </div>
       </div>
 
@@ -170,9 +167,9 @@
 
       <div class="question">
         <label>8. Contact details</label>
-        <input type="text" name="name" placeholder="Name" required />
-        <input type="email" name="email" placeholder="Email" required style="margin-top:8px" />
-        <input type="tel" name="mobile" placeholder="Mobile" style="margin-top:8px" />
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required style="margin-top:8px">
+        <input type="tel" name="mobile" placeholder="Mobile" style="margin-top:8px">
       </div>
 
       <button type="submit">See My Result</button>
@@ -191,49 +188,51 @@
   </div>
 
   <script>
-    document.getElementById('airForm').addEventListener('submit', function(e) {
+    document.getElementById("airForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
       let score = 0;
 
-      document.querySelectorAll('select').forEach(sel => {
+      document.querySelectorAll("select").forEach(sel => {
         const val = parseInt(sel.value);
         if (!isNaN(val)) score += val;
       });
 
-      document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+      document.querySelectorAll("input[type='checkbox']:checked").forEach(cb => {
         score += parseInt(cb.dataset.score);
       });
 
-      let category = '';
-      let message = '';
+      let category = "";
+      let message = "";
 
       if (score >= 80) {
-        category = 'You’re Ready to Earn';
-        message = '<strong>Your space is already suitable to be listed on AirOffices.</strong><br><br>Venues like yours are actively earning from underutilised rooms — often without making any changes.';
+        category = "You’re Ready to Earn";
+        message = "Your space is already suitable to be listed on AirOffices. Venues like yours are actively earning from underutilised rooms.";
       } else if (score >= 60) {
-        category = 'High Potential Venue';
-        message = '<strong>Your venue shows strong commercial potential.</strong><br><br>With one or two small tweaks, your space could unlock consistent bookings.';
+        category = "High Potential Venue";
+        message = "Your venue shows strong commercial potential. With one or two small tweaks, your space could unlock consistent bookings.";
       } else if (score >= 40) {
-        category = 'Commercially Viable';
-        message = '<strong>Your space meets the core conditions.</strong><br><br>Most venues in this category simply haven’t realised this opportunity existed.';
+        category = "Commercially Viable";
+        message = "Your space meets the core conditions, and demand already exists for venues like yours — even if you haven’t considered this before.";
       } else {
-        category = 'Untapped Opportunity';
-        message = '<strong>Your space may not be ready today.</strong><br><br>You’re now aware of an asset most venues overlook — many successful listings started here.';
+        category = "Untapped Opportunity";
+        message = "Your space may not be ready today, but you’re now aware of an overlooked opportunity many venues discover later.";
       }
 
-      document.getElementById('scoreText').innerText = category + ' (' + score + '/100)';
-      document.getElementById('message').innerHTML = message;
-      document.getElementById('finalScore').value = score;
-      document.getElementById('resultCategory').value = category;
+      document.getElementById("scoreText").innerText = category + " (" + score + "/100)";
+      document.getElementById("message").innerText = message;
+      document.getElementById("finalScore").value = score;
+      document.getElementById("resultCategory").value = category;
 
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
 
-      // Submit to Formspree after showing result
-      setTimeout(() => {
-        e.target.submit();
-      }, 800);
+      // Background submit to Formspree (no redirect)
+      fetch(e.target.action, {
+        method: "POST",
+        body: new FormData(e.target),
+        headers: { "Accept": "application/json" }
+      });
     });
   </script>
 </body>
