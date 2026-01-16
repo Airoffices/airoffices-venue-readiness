@@ -1,38 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>AirOffices – Venue Readiness Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>AirOffices Venue Readiness Check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      padding: 20px;
-    }
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: #f5f6f8;
+  margin: 0;
+  padding: 20px;
+}
 
-    .container {
-      max-width: 640px;
-      background: #ffffff;
-      margin: auto;
-      padding: 32px;
-      border-radius: 8px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    }
+.container {
+  max-width: 520px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
 
-    h1, h2 {
-      text-align: center;
-    }
+h1 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
 
-    .question {
-      margin-bottom: 22px;
-    }
+.sub {
+  color: #555;
+  margin-bottom: 24px;
+}
 
-    .question p {
-      font-weight: bold;
-    }
+label {
+  font-weight: 600;
+  margin-top: 18px;
+  display: block;
+}
 
-    button {
-      background: #000;
-      color: #fff;
+select, input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+button {
+  margin-top: 28px;
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.result {
+  text-align: center;
+}
+
+.result h2 {
+  margin-top: 0;
+}
+
+.good { color: #1a7f37; }
+.maybe { color: #c77700; }
+.bad { color: #b42318; }
+
+a.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #111;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="formStep">
+
+<h1>Could your space be earning?</h1>
+<p class="sub">
+Complete this 3-minute check to see if your venue could earn income from an unused room or quiet space.
+</p>
+
+<form id="quizForm" action="https://formspree.io/f/xjkezgnq" method="POST">
+
+<label>Type of venue</label>
+<select name="venue_type" required>
+  <option value="">Select</option>
+  <option value="Café">Café</option>
+  <option value="Hotel">Hotel</option>
+  <option value="Office">Office</option>
+  <option value="Restaurant">Restaurant</option>
+  <option value="Other">Other</option>
+</select>
+
+<label>City & suburb</label>
+<input name="location" required placeholder="e.g. Durbanville, Cape Town"/>
+
+<label>What space do you have?</label>
+<select name="space_type" id="space" required>
+  <option value="">Select</option>
+  <option value="Boardroom">Boardroom / meeting room</option>
+  <option value="Private office">Private office</option>
+  <option value="Desk">Desk / quiet area</option>
+</select>
+
+<label>How often is it unused?</label>
+<select name="unused" id="unused" required>
+  <option value="">Select</option>
+  <option value="Daily">Daily</option>
+  <option value="Weekly">A few times a week</option>
+  <option value="Occasionally">Occasionally</option>
+</select>
+
+<label>Are you the decision-maker?</label>
+<select name="decision" id="decision" required>
+  <option value="">Select</option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+</select>
+
+<label>Your email (we’ll send your result)</label>
+<input type="email" name="email" required placeholder="you@company.com"/>
+
+<input type="hidden" name="score" id="scoreField" />
+<input type="hidden" name="result" id="resultField" />
+
+<button type="submit">See my result →</button>
+
+</form>
+</div>
+
+<div class="container hidden" id="resultStep">
+  <div class="result" id="resultContent"></div>
+</div>
+
+<script>
+document.getElementById("quizForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let score = 0;
+
+  const space = document.getElementById("space").value;
+  const unused = document.getElementById("unused").value;
+  const decision = document.getElementById("decision").value;
+
+  if (space === "Boardroom" || space === "Private office") score += 2;
+  if (space === "Desk") score += 1;
+
+  if (unused === "Daily") score += 2;
+  if (unused === "Weekly") score += 1;
+
+  if (decision === "Yes") score += 1;
+
+  let resultHTML = "";
+  let resultLabel = "";
+
+  if (score >= 5) {
+    resultLabel = "Strong fit";
+    resultHTML = `
+      <h2 class="good">Your space looks like a strong fit ✅</h2>
+      <p>Spaces like yours typically perform very well on AirOffices.</p>
+      <a class="cta" href="https://calendly.com/brendan-airoffices/30min" target="_blank">
+        Book a 30-min setup call
+      </a>`;
+  } else if (score >= 3) {
+    resultLabel = "Possible fit";
+    resultHTML = `
+      <h2 class="maybe">Your space may be a fit ⚠️</h2>
+      <p>With a few tweaks, this could work well.</p>
+      <p>We’ll email you recommendations.</p>`;
+  } else {
+    resultLabel = "Not ready";
+    resultHTML = `
+      <h2 class="bad">Your space isn’t quite ready ❌</h2>
+      <p>We’ll send suggestions on how to improve suitability.</p>`;
+  }
+
+  document.getElementById("scoreField").value = score;
+  document.getElementById("resultField").value = resultLabel;
+
+  document.getElementById("formStep").classList.add("hidden");
+  document.getElementById("resultStep").classList.remove("hidden");
+  document.getElementById("resultContent").innerHTML = resultHTML;
+
+  fetch("https://formspree.io/f/xjkezgnq", {
+    method: "POST",
+    body: new FormData(e.target),
+    headers: { "Accept": "application/json" }
+  });
+});
+</script>
+
+</body>
+</html>
