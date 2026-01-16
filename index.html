@@ -1,211 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>AirOffices Venue Readiness Check</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <title>AirOffices Venue Readiness Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-  background: #f5f6f8;
-  margin: 0;
-  padding: 20px;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
 
-.container {
-  max-width: 520px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 32px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
+    .container {
+      max-width: 600px;
+      background: #ffffff;
+      padding: 30px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-h1 {
-  font-size: 26px;
-  margin-bottom: 8px;
-}
+    h1 {
+      text-align: center;
+    }
 
-.sub {
-  color: #555;
-  margin-bottom: 24px;
-}
+    .question {
+      margin-bottom: 20px;
+    }
 
-label {
-  font-weight: 600;
-  margin-top: 18px;
-  display: block;
-}
+    .question p {
+      font-weight: bold;
+    }
 
-select, input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-top: 6px;
-  font-size: 15px;
-}
+    button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-button {
-  margin-top: 28px;
-  width: 100%;
-  padding: 14px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
+    button:hover {
+      opacity: 0.9;
+    }
 
-.hidden {
-  display: none;
-}
+    .hidden {
+      display: none;
+    }
 
-.result {
-  text-align: center;
-}
+    .actions {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-.result h2 {
-  margin-top: 0;
-}
+    .actions a {
+      text-align: center;
+      text-decoration: none;
+      background: #0066ff;
+      color: #fff;
+      padding: 12px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
 
-.good { color: #1a7f37; }
-.maybe { color: #c77700; }
-.bad { color: #b42318; }
+    .actions a.secondary {
+      background: #00a86b;
+    }
 
-a.cta {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 20px;
-  background: #111;
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 600;
-}
-</style>
+    input[type="email"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container" id="formStep">
+  <div class="container">
 
-<h1>Could your space be earning?</h1>
-<p class="sub">
-3-minute check for cafés, hotels & offices with unused rooms.
-</p>
+    <h1>Venue Readiness Check</h1>
 
-<form id="quizForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+    <!-- QUIZ -->
+    <form id="quizForm">
+      
+      <div class="question">
+        <p>1. Do you have reliable Wi-Fi?</p>
+        <label><input type="radio" name="q1" value="1" required> Yes</label><br>
+        <label><input type="radio" name="q1" value="0"> No</label>
+      </div>
 
-<label>Type of venue</label>
-<select name="venue_type" required>
-  <option value="">Select</option>
-  <option value="cafe">Café</option>
-  <option value="hotel">Hotel</option>
-  <option value="office">Office</option>
-  <option value="restaurant">Restaurant</option>
-</select>
+      <div class="question">
+        <p>2. Is there under-utilised space during the day?</p>
+        <label><input type="radio" name="q2" value="1" required> Yes</label><br>
+        <label><input type="radio" name="q2" value="0"> No</label>
+      </div>
 
-<label>City & suburb</label>
-<input name="location" required placeholder="e.g. Durbanville, Cape Town"/>
+      <div class="question">
+        <p>3. Is the space reasonably quiet?</p>
+        <label><input type="radio" name="q3" value="1" required> Yes</label><br>
+        <label><input type="radio" name="q3" value="0"> No</label>
+      </div>
 
-<label>What space do you have?</label>
-<select name="space_type" id="space">
-  <option value="">Select</option>
-  <option value="boardroom">Boardroom / meeting room</option>
-  <option value="private">Private office</option>
-  <option value="desk">Desk / quiet area</option>
-</select>
+      <button type="submit">See my result</button>
+    </form>
 
-<label>How often is it unused?</label>
-<select name="unused" id="unused">
-  <option value="">Select</option>
-  <option value="daily">Daily</option>
-  <option value="weekly">A few times a week</option>
-  <option value="rare">Occasionally</option>
-</select>
+    <!-- RESULTS -->
+    <div id="results" class="hidden">
 
-<label>Are you the decision-maker?</label>
-<select name="decision" id="decision">
-  <option value="">Select</option>
-  <option value="yes">Yes</option>
-  <option value="no">No</option>
-</select>
+      <h2>Your Result</h2>
+      <p id="resultText"></p>
 
-<label>Your email (we’ll send your result)</label>
-<input type="email" name="email" required />
+      <!-- FORM (FORMSPREE) -->
+      <form 
+        action="https://formspree.io/f/YOUR_FORMSPREE_ID"
+        method="POST"
+      >
+        <input type="hidden" name="score" id="scoreField">
+        <label>
+          Get a copy of your result:
+          <input type="email" name="email" required>
+        </label>
+        <button type="submit">Email me my result</button>
+      </form>
 
-<input type="hidden" name="score" id="scoreField" />
-<input type="hidden" name="result" id="resultField" />
+      <!-- ACTIONS -->
+      <div class="actions">
+        <a 
+          href="https://calendly.com/YOUR_CALENDLY_LINK"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Book a call with AirOffices
+        </a>
 
-<button type="submit">See my result →</button>
+        <a 
+          href="https://airoffices.co.za"
+          class="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about AirOffices
+        </a>
+      </div>
 
-</form>
-</div>
+    </div>
 
-<div class="container hidden" id="resultStep">
-  <div class="result" id="resultContent"></div>
-</div>
+  </div>
 
-<script>
-document.getElementById("quizForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+  <script>
+    const quizForm = document.getElementById("quizForm");
+    const results = document.getElementById("results");
+    const resultText = document.getElementById("resultText");
+    const scoreField = document.getElementById("scoreField");
 
-  let score = 0;
+    quizForm.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-  const space = document.getElementById("space").value;
-  const unused = document.getElementById("unused").value;
-  const decision = document.getElementById("decision").value;
+      let score = 0;
+      const data = new FormData(quizForm);
 
-  if (space === "boardroom" || space === "private") score += 2;
-  if (space === "desk") score += 1;
+      for (let value of data.values()) {
+        score += Number(value);
+      }
 
-  if (unused === "daily") score += 2;
-  if (unused === "weekly") score += 1;
+      let message = "";
+      if (score === 3) {
+        message = "Excellent! Your venue is highly suitable for AirOffices.";
+      } else if (score === 2) {
+        message = "Good potential. A few tweaks could make your venue ideal.";
+      } else {
+        message = "Not quite ready yet — but there may still be opportunities.";
+      }
 
-  if (decision === "yes") score += 1;
+      resultText.textContent = message;
+      scoreField.value = score;
 
-  let resultHTML = "";
-  let resultLabel = "";
-
-  if (score >= 5) {
-    resultLabel = "Strong fit";
-    resultHTML = `
-      <h2 class="good">Your space looks like a strong fit ✅</h2>
-      <p>Spaces like yours typically perform well on AirOffices.</p>
-      <a class="cta" href="YOUR_CALENDLY_LINK" target="_blank">
-        Book a 15-min setup call
-      </a>`;
-  } else if (score >= 3) {
-    resultLabel = "Possible fit";
-    resultHTML = `
-      <h2 class="maybe">Your space may be a fit ⚠️</h2>
-      <p>With a few tweaks, this could work well.</p>
-      <p>We’ll email you recommendations.</p>`;
-  } else {
-    resultLabel = "Not ready";
-    resultHTML = `
-      <h2 class="bad">Your space isn’t quite ready ❌</h2>
-      <p>We’ll send suggestions on how to improve suitability.</p>`;
-  }
-
-  document.getElementById("scoreField").value = score;
-  document.getElementById("resultField").value = resultLabel;
-
-  document.getElementById("formStep").classList.add("hidden");
-  document.getElementById("resultStep").classList.remove("hidden");
-  document.getElementById("resultContent").innerHTML = resultHTML;
-
-  fetch(e.target.action, {
-    method: "POST",
-    body: new FormData(e.target),
-    headers: { 'Accept': 'application/json' }
-  });
-});
-</script>
+      quizForm.classList.add("hidden");
+      results.classList.remove("hidden");
+    });
+  </script>
 
 </body>
 </html>
