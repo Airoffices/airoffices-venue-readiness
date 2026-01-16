@@ -146,7 +146,6 @@ a.cta {
 </form>
 </div>
 
-<!-- RESULT STEP -->
 <div class="container hidden" id="resultStep">
   <div class="result" id="resultContent"></div>
 </div>
@@ -200,7 +199,6 @@ document.getElementById("quizForm").addEventListener("submit", function(e) {
   document.getElementById("resultStep").classList.remove("hidden");
   document.getElementById("resultContent").innerHTML = resultHTML;
 
-  // submit silently to Formspree
   fetch(e.target.action, {
     method: "POST",
     body: new FormData(e.target),
@@ -211,4 +209,3 @@ document.getElementById("quizForm").addEventListener("submit", function(e) {
 
 </body>
 </html>
-
