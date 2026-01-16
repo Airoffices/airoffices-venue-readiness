@@ -1,239 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AirOffices Venue Readiness Check</title>
+<meta charset="UTF-8" />
+<title>AirOffices Venue Readiness Check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f7f7f7;
-      margin: 0;
-      padding: 20px;
-      color: #222;
-    }
-    .container {
-      max-width: 720px;
-      margin: auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-    p.sub {
-      color: #555;
-      margin-bottom: 24px;
-    }
-    .question {
-      margin-bottom: 24px;
-    }
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 8px;
-    }
-    select, input[type="text"], input[type="email"], input[type="tel"] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-    .options label {
-      font-weight: 400;
-      display: block;
-      margin-bottom: 6px;
-    }
-    button {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 14px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .result {
-      margin-top: 32px;
-      padding: 24px;
-      border-radius: 12px;
-      background: #f1f1f1;
-      display: none;
-    }
-    .score {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .cta {
-      margin-top: 20px;
-    }
-    .cta a {
-      display: inline-block;
-      background: #25D366;
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-  </style>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: #f5f6f8;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 520px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.sub {
+  color: #555;
+  margin-bottom: 24px;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 18px;
+  display: block;
+}
+
+select, input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+button {
+  margin-top: 28px;
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.result {
+  text-align: center;
+}
+
+.result h2 {
+  margin-top: 0;
+}
+
+.good { color: #1a7f37; }
+.maybe { color: #c77700; }
+.bad { color: #b42318; }
+
+a.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #111;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Is Your Space a Fit for AirOffices?</h1>
-    <p class="sub">
-      Most venues don’t realise they can monetise a single room or quiet space.
-      This 3-minute check shows whether your space could already earn on AirOffices.
-    </p>
 
-    <form id="airForm" action="https://formspree.io/f/xjkezgnq" method="POST">
+<div class="container" id="formStep">
 
-      <!-- Hidden fields sent to Formspree -->
-      <input type="hidden" name="_subject" value="New AirOffices Venue Readiness Submission">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="score" id="finalScore">
-      <input type="hidden" name="result_category" id="resultCategory">
+<h1>Could your space be earning?</h1>
+<p class="sub">
+3-minute check for cafés, hotels & offices with unused rooms.
+</p>
 
-      <div class="question">
-        <label>1. Type of venue</label>
-        <select name="venue_type" required>
-          <option value="">Select</option>
-          <option value="5">Coffee shop / Restaurant / Hotel</option>
-          <option value="5">Office / Corporate</option>
-          <option value="3">Other</option>
-        </select>
-      </div>
+<form id="quizForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
 
-      <div class="question">
-        <label>2. City & suburb</label>
-        <input type="text" name="location" required>
-      </div>
+<label>Type of venue</label>
+<select name="venue_type" required>
+  <option value="">Select</option>
+  <option value="cafe">Café</option>
+  <option value="hotel">Hotel</option>
+  <option value="office">Office</option>
+  <option value="restaurant">Restaurant</option>
+</select>
 
-      <div class="question">
-        <label>3. What space can you list?</label>
-        <div class="options">
-          <label><input type="checkbox" data-score="10" name="space_boardroom"> Boardroom / Meeting room</label>
-          <label><input type="checkbox" data-score="10" name="space_private_office"> Private office</label>
-          <label><input type="checkbox" data-score="3" name="space_desk"> Desk only</label>
-        </div>
-      </div>
+<label>City & suburb</label>
+<input name="location" required placeholder="e.g. Durbanville, Cape Town"/>
 
-      <div class="question">
-        <label>4. How often is the space unused?</label>
-        <select name="unused_frequency" required>
-          <option value="">Select</option>
-          <option value="15">Most of the time</option>
-          <option value="8">Sometimes</option>
-          <option value="0">Rarely</option>
-        </select>
-      </div>
+<label>What space do you have?</label>
+<select name="space_type" id="space">
+  <option value="">Select</option>
+  <option value="boardroom">Boardroom / meeting room</option>
+  <option value="private">Private office</option>
+  <option value="desk">Desk / quiet area</option>
+</select>
 
-      <div class="question">
-        <label>5. Comfortable with hourly bookings?</label>
-        <select name="hourly_bookings" required>
-          <option value="">Select</option>
-          <option value="10">Yes</option>
-          <option value="5">Yes, with notice</option>
-          <option value="0">No</option>
-        </select>
-      </div>
+<label>How often is it unused?</label>
+<select name="unused" id="unused">
+  <option value="">Select</option>
+  <option value="daily">Daily</option>
+  <option value="weekly">A few times a week</option>
+  <option value="rare">Occasionally</option>
+</select>
 
-      <div class="question">
-        <label>6. Monthly listing fee from R549 (ex VAT) — does this work?</label>
-        <select name="pricing_fit" required>
-          <option value="">Select</option>
-          <option value="15">Yes</option>
-          <option value="5">Need more info</option>
-          <option value="0">Not right now</option>
-        </select>
-      </div>
+<label>Are you the decision-maker?</label>
+<select name="decision" id="decision">
+  <option value="">Select</option>
+  <option value="yes">Yes</option>
+  <option value="no">No</option>
+</select>
 
-      <div class="question">
-        <label>7. Are you the decision-maker?</label>
-        <select name="decision_maker" required>
-          <option value="">Select</option>
-          <option value="10">Yes</option>
-          <option value="5">Influencer</option>
-          <option value="0">No</option>
-        </select>
-      </div>
+<label>Your email (we’ll send your result)</label>
+<input type="email" name="email" required />
 
-      <div class="question">
-        <label>8. Contact details</label>
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required style="margin-top:8px">
-        <input type="tel" name="mobile" placeholder="Mobile" style="margin-top:8px">
-      </div>
+<input type="hidden" name="score" id="scoreField" />
+<input type="hidden" name="result" id="resultField" />
 
-      <button type="submit">See My Result</button>
-    </form>
+<button type="submit">See my result →</button>
 
-    <div class="result" id="result">
-      <div class="score" id="scoreText"></div>
-      <div id="message"></div>
+</form>
+</div>
 
-      <div class="cta">
-        <a href="https://wa.me/270829655050?text=Hi%20Brendan%2C%20I%20just%20completed%20the%20AirOffices%20Venue%20Readiness%20Check%20and%20would%20love%20to%20chat." target="_blank">
-          💬 Chat with our CEO on WhatsApp
-        </a>
-      </div>
-    </div>
-  </div>
+<!-- RESULT STEP -->
+<div class="container hidden" id="resultStep">
+  <div class="result" id="resultContent"></div>
+</div>
 
-  <script>
-    document.getElementById("airForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+<script>
+document.getElementById("quizForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-      let score = 0;
+  let score = 0;
 
-      document.querySelectorAll("select").forEach(sel => {
-        const val = parseInt(sel.value);
-        if (!isNaN(val)) score += val;
-      });
+  const space = document.getElementById("space").value;
+  const unused = document.getElementById("unused").value;
+  const decision = document.getElementById("decision").value;
 
-      document.querySelectorAll("input[type='checkbox']:checked").forEach(cb => {
-        score += parseInt(cb.dataset.score);
-      });
+  if (space === "boardroom" || space === "private") score += 2;
+  if (space === "desk") score += 1;
 
-      let category = "";
-      let message = "";
+  if (unused === "daily") score += 2;
+  if (unused === "weekly") score += 1;
 
-      if (score >= 80) {
-        category = "You’re Ready to Earn";
-        message = "Your space is already suitable to be listed on AirOffices. Venues like yours are actively earning from underutilised rooms.";
-      } else if (score >= 60) {
-        category = "High Potential Venue";
-        message = "Your venue shows strong commercial potential. With one or two small tweaks, your space could unlock consistent bookings.";
-      } else if (score >= 40) {
-        category = "Commercially Viable";
-        message = "Your space meets the core conditions, and demand already exists for venues like yours — even if you haven’t considered this before.";
-      } else {
-        category = "Untapped Opportunity";
-        message = "Your space may not be ready today, but you’re now aware of an overlooked opportunity many venues discover later.";
-      }
+  if (decision === "yes") score += 1;
 
-      document.getElementById("scoreText").innerText = category + " (" + score + "/100)";
-      document.getElementById("message").innerText = message;
-      document.getElementById("finalScore").value = score;
-      document.getElementById("resultCategory").value = category;
+  let resultHTML = "";
+  let resultLabel = "";
 
-      document.getElementById("result").style.display = "block";
-      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+  if (score >= 5) {
+    resultLabel = "Strong fit";
+    resultHTML = `
+      <h2 class="good">Your space looks like a strong fit ✅</h2>
+      <p>Spaces like yours typically perform well on AirOffices.</p>
+      <a class="cta" href="YOUR_CALENDLY_LINK" target="_blank">
+        Book a 15-min setup call
+      </a>`;
+  } else if (score >= 3) {
+    resultLabel = "Possible fit";
+    resultHTML = `
+      <h2 class="maybe">Your space may be a fit ⚠️</h2>
+      <p>With a few tweaks, this could work well.</p>
+      <p>We’ll email you recommendations.</p>`;
+  } else {
+    resultLabel = "Not ready";
+    resultHTML = `
+      <h2 class="bad">Your space isn’t quite ready ❌</h2>
+      <p>We’ll send suggestions on how to improve suitability.</p>`;
+  }
 
-      // Background submit to Formspree (no redirect)
-      fetch(e.target.action, {
-        method: "POST",
-        body: new FormData(e.target),
-        headers: { "Accept": "application/json" }
-      });
-    });
-  </script>
+  document.getElementById("scoreField").value = score;
+  document.getElementById("resultField").value = resultLabel;
+
+  document.getElementById("formStep").classList.add("hidden");
+  document.getElementById("resultStep").classList.remove("hidden");
+  document.getElementById("resultContent").innerHTML = resultHTML;
+
+  // submit silently to Formspree
+  fetch(e.target.action, {
+    method: "POST",
+    body: new FormData(e.target),
+    headers: { 'Accept': 'application/json' }
+  });
+});
+</script>
+
 </body>
 </html>
+
